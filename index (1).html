@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Mini Compiler Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Code:wght@400;600&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-effects">
+        <div class="glow-blob"></div>
+        <div class="glow-blob blob-2"></div>
+    </div>
+
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <span class="logo-icon">⚡</span>
+                <h1>Compiler<br><span class="accent">Engine</span></h1>
+            </div>
+            
+            <ul class="nav-list" id="navList">
+                <li data-target="view-1" class="active">
+                    <div class="nav-indicator">1</div>
+                    <span>Lexical Analyzer</span>
+                </li>
+                <li data-target="view-2">
+                    <div class="nav-indicator">2</div>
+                    <span>Syntax Analyzer</span>
+                </li>
+                <li data-target="view-3">
+                    <div class="nav-indicator">3</div>
+                    <span>Semantic Analyzer</span>
+                </li>
+                <li data-target="view-4">
+                    <div class="nav-indicator">4</div>
+                    <span>Intermediate Code</span>
+                </li>
+                <li data-target="view-5">
+                    <div class="nav-indicator">5</div>
+                    <span>Code Optimizer</span>
+                </li>
+                <li data-target="view-6">
+                    <div class="nav-indicator">6</div>
+                    <span>Target Code Gen</span>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="content-area">
+            <!-- Top Input Bar -->
+            <div class="topbar">
+                <div class="input-wrapper">
+                    <div class="code-icon">&lt;/&gt;</div>
+                    <textarea id="sourceCode" rows="3" spellcheck="false" placeholder="Enter source code here... e.g.
+a = 10
+b = 20
+r = a + b">a = 10
+b = 20
+c = 30
+r = (a - b) + (b - c) * 30</textarea>
+                </div>
+                <button id="compileBtn" class="btn-primary">
+                    <span class="btn-text">Compile Code</span>
+                    <span class="btn-glow"></span>
+                </button>
+            </div>
+
+            <!-- Views Container -->
+            <div class="views-container">
+                <!-- View 1: Lexical -->
+                <div id="view-1" class="phase-view active-view">
+                    <div class="view-header">
+                        <div class="header-title">
+                            <h2>Lexical Analysis</h2>
+                            <p>Breaks down the source code into a stream of tokens mapped to the symbol table.</p>
+                        </div>
+                        <div class="header-controls">
+                            <button class="control-btn fullscreen-btn" title="Toggle Fullscreen">⛶</button>
+                        </div>
+                    </div>
+                    <div class="output-box code-font" id="lexicalOut">Waiting for compilation...</div>
+                </div>
+
+                <!-- View 2: Syntax -->
+                <div id="view-2" class="phase-view">
+                    <div class="view-header">
+                        <div class="header-title">
+                            <h2>Syntax Analysis (AST)</h2>
+                            <p>Constructs an Abstract Syntax Tree verifying the grammatical structure.</p>
+                        </div>
+                        <div class="header-controls">
+                            <button class="control-btn zoom-out-btn" title="Zoom Out" data-target="syntaxOut">➖</button>
+                            <button class="control-btn zoom-in-btn" title="Zoom In" data-target="syntaxOut">➕</button>
+                            <button class="control-btn fullscreen-btn" title="Toggle Fullscreen">⛶</button>
+                        </div>
+                    </div>
+                    <div class="tree-scroll-container">
+                        <div class="tree" id="syntaxOut"></div>
+                    </div>
+                </div>
+
+                <!-- View 3: Semantic -->
+                <div id="view-3" class="phase-view">
+                    <div class="view-header">
+                        <div class="header-title">
+                            <h2>Semantic Analysis</h2>
+                            <p>Checks for type consistency and annotates the AST with implicit type conversions.</p>
+                        </div>
+                        <div class="header-controls">
+                            <button class="control-btn zoom-out-btn" title="Zoom Out" data-target="semanticOut">➖</button>
+                            <button class="control-btn zoom-in-btn" title="Zoom In" data-target="semanticOut">➕</button>
+                            <button class="control-btn fullscreen-btn" title="Toggle Fullscreen">⛶</button>
+                        </div>
+                    </div>
+                    <div class="tree-scroll-container">
+                        <div class="tree" id="semanticOut"></div>
+                    </div>
+                </div>
+
+                <!-- View 4: ICG -->
+                <div id="view-4" class="phase-view">
+                    <div class="view-header">
+                        <div class="header-title">
+                            <h2>Intermediate Code Generation</h2>
+                            <p>Generates platform-independent Three-Address Code (TAC) using temporaries.</p>
+                        </div>
+                        <div class="header-controls">
+                            <button class="control-btn fullscreen-btn" title="Toggle Fullscreen">⛶</button>
+                        </div>
+                    </div>
+                    <div class="output-box code-font" id="icgOut"></div>
+                </div>
+
+                <!-- View 5: Optimization -->
+                <div id="view-5" class="phase-view">
+                    <div class="view-header">
+                        <div class="header-title">
+                            <h2>Code Optimization</h2>
+                            <p>Performs constant folding and redundant expression elimination on the TAC.</p>
+                        </div>
+                        <div class="header-controls">
+                            <button class="control-btn fullscreen-btn" title="Toggle Fullscreen">⛶</button>
+                        </div>
+                    </div>
+                    <div class="output-box code-font" id="optOut"></div>
+                </div>
+
+                <!-- View 6: Target Code -->
+                <div id="view-6" class="phase-view">
+                    <div class="view-header">
+                        <div class="header-title">
+                            <h2>Target Code Generation</h2>
+                            <p>Translates the optimized TAC into machine-level Assembly instructions utilizing registers.</p>
+                        </div>
+                        <div class="header-controls">
+                            <button class="control-btn fullscreen-btn" title="Toggle Fullscreen">⛶</button>
+                        </div>
+                    </div>
+                    <div class="output-box code-font" id="targetOut"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
